@@ -19,7 +19,9 @@ function storeFile(multerFile) {
   const ext = path.extname(multerFile.originalname);
   const key = `${uuidv4()}${ext}`;
   const dest = path.join(UPLOAD_DIR, key);
-  fs.renameSync(multerFile.path, dest);
+  // fs.renameSync fails across drives (EXDEV) — copy then delete instead
+  fs.copyFileSync(multerFile.path, dest);
+  try { fs.unlinkSync(multerFile.path); } catch (_) { /* temp already gone */ }
   return { storageKey: key };
 }
 
