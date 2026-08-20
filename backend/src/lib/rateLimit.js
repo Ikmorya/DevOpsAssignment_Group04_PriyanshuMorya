@@ -30,4 +30,18 @@ const uploadLimiter = rateLimit({
   },
 });
 
-module.exports = { retrieveLimiter, uploadLimiter };
+/**
+ * Relaxed limiter for the download endpoint.
+ * Once they know the code, they should be able to download multiple files.
+ */
+const downloadLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 60,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    error: 'Too many downloads. Please slow down.',
+  },
+});
+
+module.exports = { retrieveLimiter, uploadLimiter, downloadLimiter };

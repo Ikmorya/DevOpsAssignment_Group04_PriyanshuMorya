@@ -2,7 +2,7 @@ const express = require('express');
 const path    = require('path');
 const File    = require('../models/File');
 const { resolveStoragePath, deleteFile } = require('../lib/storage');
-const { retrieveLimiter } = require('../lib/rateLimit');
+const { retrieveLimiter, downloadLimiter } = require('../lib/rateLimit');
 
 const router = express.Router();
 
@@ -39,7 +39,7 @@ router.get('/:code', retrieveLimiter, async (req, res) => {
 });
 
 // GET /api/retrieve/:code/download/:index — streams the actual file bytes
-router.get('/:code/download/:index', retrieveLimiter, async (req, res) => {
+router.get('/:code/download/:index', downloadLimiter, async (req, res) => {
   const { code, index } = req.params;
 
   if (!/^\d{6}$/.test(code)) {
