@@ -93,7 +93,9 @@ export default function BackgroundTicker() {
       }}>
         <ScrollColumn cards={COL_A} duration={38} delay={0} />
         <ScrollColumn cards={COL_B} duration={46} delay={-12} />
-        <ScrollColumn cards={COL_C} duration={41} delay={-6} />
+        <div className="bg-col-3" style={{ flex: 1, height: '100%' }}>
+          <ScrollColumn cards={COL_C} duration={41} delay={-6} />
+        </div>
       </div>
 
       <style>{`

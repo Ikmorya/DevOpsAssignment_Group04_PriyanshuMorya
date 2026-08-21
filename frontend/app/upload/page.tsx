@@ -183,28 +183,15 @@ export default function UploadPage() {
 
   // ── Upload view ──────────────────────────────────────────────────────────────
   return (
-    <div style={{
-      display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
-      gap: 0,
-      minHeight: 'calc(100vh - 100px)',
-      maxWidth: 1200,
-      margin: '0 auto',
-      padding: '0 24px 80px',
-    }}>
+    <div className="two-col-layout">
 
       {/* ── LEFT: 3D Documentation Panel ─────────────────────── */}
-      <div style={{
-        position: 'sticky',
-        top: 100,
-        alignSelf: 'start',
-        padding: '40px 32px 40px 0',
-      }}>
+      <div className="two-col-left">
         <DocScrollPanel />
       </div>
 
       {/* ── RIGHT: Upload Form ──────────────────────────────────── */}
-      <div style={{ padding: '40px 0 40px 32px', borderLeft: '1px solid var(--border)' }}>
+      <div className="two-col-right">
         <div className="page-header" style={{ padding: '0 0 28px', textAlign: 'left' }}>
           <h1>Upload <span className="text-gradient">Files</span></h1>
           <p style={{ textAlign: 'left' }}>Drag and drop your files below. You'll get a 6-digit code to share.</p>
