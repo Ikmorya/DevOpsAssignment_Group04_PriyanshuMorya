@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import './globals.css';
 import Image from 'next/image';
+import BackgroundTicker from './HomeSidePanel';
 
 export const metadata: Metadata = {
   title: 'FileVault — Secure File Sharing with 6-Digit Codes',
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="mesh-bg">
           <div className="mesh-blob-3" />
         </div>
+        <BackgroundTicker />
         <div className="page-wrapper">
           <nav className="navbar">
             <div className="navbar-inner">

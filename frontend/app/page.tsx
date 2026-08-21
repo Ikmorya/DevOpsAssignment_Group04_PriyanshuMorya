@@ -26,12 +26,9 @@ export default function HomePage() {
         <div className="hero-badge">
           <ShieldCheck size={14} style={{ color: 'var(--text-secondary)' }} /> Secure &middot; Ephemeral &middot; Zero-Account
         </div>
-        <h1 className="hero-title">
+        <h1 className="hero-title" style={{ whiteSpace: 'nowrap', fontSize: 'clamp(1.6rem, 4vw, 3.2rem)' }}>
           Share Files with a{' '}
-          <span style={{ display: 'inline-block' }}>
-            <span className="gradient-text">{typedText}</span>
-            <span className="cursor-blink">|</span>
-          </span>
+          <span className="gradient-text">{typedText}</span><span className="cursor-blink">|</span>
         </h1>
         <p className="hero-subtitle">
           Upload any file and instantly get a secure 6-digit code.
