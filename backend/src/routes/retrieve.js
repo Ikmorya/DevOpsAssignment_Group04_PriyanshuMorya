@@ -10,11 +10,11 @@ const router = express.Router();
 router.get('/:code', retrieveLimiter, async (req, res) => {
   const { code } = req.params;
 
-  if (!/^\d{6}$/.test(code)) {
-    return res.status(400).json({ error: 'Code must be exactly 6 digits.' });
+  if (!/^[A-Z0-9]{4}$/.test(code.toUpperCase())) {
+    return res.status(400).json({ error: 'Code must be exactly 4 alphanumeric characters.' });
   }
 
-  const record = await File.findOne({ code });
+  const record = await File.findOne({ code: code.toUpperCase() });
   if (!record) {
     return res.status(404).json({ error: 'Code not found or has expired.' });
   }
@@ -42,11 +42,11 @@ router.get('/:code', retrieveLimiter, async (req, res) => {
 router.get('/:code/download/:index', downloadLimiter, async (req, res) => {
   const { code, index } = req.params;
 
-  if (!/^\d{6}$/.test(code)) {
+  if (!/^[A-Z0-9]{4}$/.test(code.toUpperCase())) {
     return res.status(400).json({ error: 'Invalid code.' });
   }
 
-  const record = await File.findOne({ code });
+  const record = await File.findOne({ code: code.toUpperCase() });
   if (!record) {
     return res.status(404).json({ error: 'Code not found or has expired.' });
   }

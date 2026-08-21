@@ -26,7 +26,7 @@ const DOC_STEPS = [
   {
     step: '05', tag: 'Limits',
     title: 'Max 20 Files at Once',
-    desc: 'You can bundle up to 20 files under a single 6-digit code. All files are linked to the same code and expire together.',
+    desc: 'You can bundle up to 20 files under a single 4 charcode. All files are linked to the same code and expire together.',
   },
   {
     step: '06', tag: 'Types',
@@ -51,7 +51,7 @@ const DOC_STEPS = [
   {
     step: '10', tag: 'Security',
     title: 'Cryptographic Code',
-    desc: 'Your 6-digit code is generated using Node\'s crypto.randomInt — never sequential, never predictable, never reused.',
+    desc: 'Your 4 charcode is generated using Node\'s crypto.randomInt per character — never sequential, never predictable, never reused.',
   },
   {
     step: '11', tag: 'Upload',
@@ -66,12 +66,12 @@ const DOC_STEPS = [
   {
     step: '13', tag: 'Code',
     title: 'Receive Your Code',
-    desc: 'Once done, a 6-digit access code is displayed in a large card. This is the only credential needed to retrieve your files.',
+    desc: 'Once done, a 4 charcode access code is displayed in a large card. This is the only credential needed to retrieve your files.',
   },
   {
     step: '14', tag: 'Code',
     title: 'Copy & Share',
-    desc: 'Tap "Copy Code" to copy the 6 digits to your clipboard. Share it over any channel — text, email, voice, anything.',
+    desc: 'Tap "Copy Code" to copy the 4 charcode to your clipboard. Share it over any channel — text, email, voice, anything.',
   },
   {
     step: '15', tag: 'Expiry',

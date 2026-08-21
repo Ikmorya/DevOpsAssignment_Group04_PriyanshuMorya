@@ -5,7 +5,7 @@ import { ShieldCheck, Timer, Flame, Shield, Files, Zap, UploadCloud, Hash, Downl
 
 export default function HomePage() {
   const [typedText, setTypedText] = useState('');
-  const fullText = "6-Digit Code";
+  const fullText = "4-Char Code";
 
   useEffect(() => {
     let i = 0;
@@ -31,7 +31,7 @@ export default function HomePage() {
           <span className="gradient-text">{typedText}</span><span className="cursor-blink">|</span>
         </h1>
         <p className="hero-subtitle">
-          Upload any file and instantly get a secure 6-digit code.
+          Upload any file and instantly get a secure 4 charcode.
           Anyone with the code can retrieve it — no sign-up, no hassle.
           Files vanish after 24 hours.
         </p>
@@ -49,7 +49,7 @@ export default function HomePage() {
           <div className="code-card" style={{ display: 'inline-block', padding: '28px 40px' }}>
             <div className="code-label">Your access code</div>
             <div className="code-digits">
-              {['4', '8', '3', '9', '2', '0'].map((d, i) => (
+              {['A', '3', 'K', 'X'].map((d, i) => (
                 <div key={i} className="code-digit" style={{ animationDelay: `${i * 0.07}s` }}>{d}</div>
               ))}
             </div>
@@ -62,8 +62,8 @@ export default function HomePage() {
       <div className="container animate-fade-in-up delay-300">
         <div className="stats-strip">
           <div className="stat-item">
-            <div className="stat-value">6</div>
-            <div className="stat-label">Digit Code</div>
+            <div className="stat-value">4</div>
+            <div className="stat-label">Char Code</div>
           </div>
           <div className="stat-item">
             <div className="stat-value">24h</div>
@@ -108,7 +108,7 @@ export default function HomePage() {
             <div className="feature-icon"><Shield size={24} style={{ color: 'var(--accent-1)' }} /></div>
             <div className="feature-title">Rate Limited</div>
             <p className="feature-desc">
-              5 attempts per IP per minute on code entry prevents brute-force attacks on the 6-digit space.
+              5 attempts per IP per minute on code entry prevents brute-force attacks on the 4 charcode space.
             </p>
           </div>
           <div className="feature-card">
@@ -122,7 +122,7 @@ export default function HomePage() {
             <div className="feature-icon"><Zap size={24} style={{ color: 'var(--accent-1)' }} /></div>
             <div className="feature-title">No Account Needed</div>
             <p className="feature-desc">
-              Recipients only need the 6-digit code to retrieve files. Zero friction, zero sign-ups for downloaders.
+              Recipients only need the 4 charcode to retrieve files. Zero friction, zero sign-ups for downloaders.
             </p>
           </div>
         </div>
@@ -133,10 +133,10 @@ export default function HomePage() {
         <h2 style={{ textAlign: 'center', fontSize: '1.8rem', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: 40 }}>
           How it <span className="text-gradient">works</span>
         </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 24 }}>
+        <div className="how-it-works-grid">
           {[
             { step: '01', title: 'Upload', desc: 'Drag & drop your files. Up to 50MB each, 20 files per session.', icon: <UploadCloud size={32} style={{ color: 'var(--text-secondary)' }} /> },
-            { step: '02', title: 'Get Code', desc: 'Receive a unique 6-digit access code — share it with anyone.', icon: <Hash size={32} style={{ color: 'var(--text-secondary)' }} /> },
+            { step: '02', title: 'Get Code', desc: 'Receive a unique 4 charcode access code — share it with anyone.', icon: <Hash size={32} style={{ color: 'var(--text-secondary)' }} /> },
             { step: '03', title: 'Retrieve', desc: 'Enter the code on the Retrieve page to download all files.', icon: <DownloadCloud size={32} style={{ color: 'var(--text-secondary)' }} /> },
             { step: '04', title: 'Auto-Clean', desc: 'After 24h, code and files are permanently deleted from our servers.', icon: <Trash2 size={32} style={{ color: 'var(--text-secondary)' }} /> },
           ].map(({ step, title, desc, icon }) => (

@@ -445,6 +445,12 @@ input {
   padding: 20px 0 80px;
 }
 
+.how-it-works-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+}
+
 .feature-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -1320,6 +1326,11 @@ input {
     gap: 12px;
   }
 
+  .how-it-works-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
   .feature-card {
     padding: 16px;
   }
@@ -1360,15 +1371,16 @@ input {
   }
 
   .stats-strip {
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    background: transparent;
+    border: none;
+    padding: 0;
   }
 
   .stat-item {
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .stat-item:last-child {
-    border-bottom: none;
+    padding: 12px;
+    border: none;
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "filesharingnetwork-backend",
   "version": "1.0.0",
-  "description": "Express API for file sharing with 6-digit code retrieval",
+  "description": "Express API for file sharing with 4-character code retrieval",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

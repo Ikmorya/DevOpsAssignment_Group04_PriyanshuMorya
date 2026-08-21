@@ -9,12 +9,12 @@ import {
 } from '../../lib/api-client';
 
 export default function RetrievePage() {
-  const [digits, setDigits] = useState<string[]>(Array(6).fill(''));
+  const [digits, setDigits] = useState<string[]>(Array(4).fill(''));
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<RetrieveResponse | null>(null);
   const [error, setError] = useState('');
   // Single ref array — avoids calling useRef inside a loop (Rules of Hooks)
-  const inputRefs = useRef<(HTMLInputElement | null)[]>(Array(6).fill(null));
+  const inputRefs = useRef<(HTMLInputElement | null)[]>(Array(4).fill(null));
 
   const focusAt = (i: number) => inputRefs.current[i]?.focus();
   const setRef = (i: number) => (el: HTMLInputElement | null) => { inputRefs.current[i] = el; };
@@ -23,11 +23,12 @@ export default function RetrievePage() {
 
   // ── Digit input handling (auto-advance, backspace, paste) ───────────────────
   const handleDigitChange = (i: number, val: string) => {
-    const d = val.replace(/\D/g, '').slice(-1);
+    // Accept alphanumeric only, uppercase
+    const ch = val.replace(/[^A-Za-z0-9]/g, '').slice(-1).toUpperCase();
     const next = [...digits];
-    next[i] = d;
+    next[i] = ch;
     setDigits(next);
-    if (d && i < 5) focusAt(i + 1);
+    if (ch && i < 3) focusAt(i + 1);
   };
 
   const handleKeyDown = (i: number, e: React.KeyboardEvent) => {
@@ -35,17 +36,17 @@ export default function RetrievePage() {
   };
 
   const handlePaste = (e: React.ClipboardEvent) => {
-    const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
-    if (pasted.length === 6) {
+    const pasted = e.clipboardData.getData('text').replace(/[^A-Za-z0-9]/g, '').toUpperCase().slice(0, 4);
+    if (pasted.length === 4) {
       setDigits(pasted.split(''));
-      focusAt(5);
+      focusAt(3);
       e.preventDefault();
     }
   };
 
   // ── Submit ──────────────────────────────────────────────────────────────────
   const handleRetrieve = async () => {
-    if (code.length !== 6) return;
+    if (code.length !== 4) return;
     setLoading(true);
     setError('');
     setResult(null);
@@ -60,7 +61,7 @@ export default function RetrievePage() {
   };
 
   const reset = () => {
-    setDigits(Array(6).fill(''));
+    setDigits(Array(4).fill(''));
     setResult(null);
     setError('');
     focusAt(0);
@@ -157,7 +158,7 @@ export default function RetrievePage() {
       <div className="two-col-right">
         <div className="page-header" style={{ padding: '0 0 28px', textAlign: 'left' }}>
           <h1>Retrieve <span className="text-gradient">Files</span></h1>
-          <p style={{ textAlign: 'left' }}>Enter the 6-digit code you received to access your files.</p>
+          <p style={{ textAlign: 'left' }}>Enter the 4-character code you received to access your files.</p>
         </div>
 
         <div className="card" style={{ marginTop: 0 }}>
@@ -166,7 +167,7 @@ export default function RetrievePage() {
               fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.1em',
               textTransform: 'uppercase', color: 'var(--text-muted)',
             }}>
-              Enter 6-digit access code
+            Enter 4-character access code
             </span>
           </div>
 
@@ -177,13 +178,12 @@ export default function RetrievePage() {
                 ref={setRef(i)}
                 id={`digit-input-${i}`}
                 type="text"
-                inputMode="numeric"
-                pattern="[0-9]*"
+                inputMode="text"
                 maxLength={1}
                 value={d}
                 placeholder="·"
                 className="digit-input"
-                aria-label={`Digit ${i + 1} of 6`}
+                aria-label={`Character ${i + 1} of 4`}
                 onChange={(e) => handleDigitChange(i, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(i, e)}
               />
@@ -191,7 +191,7 @@ export default function RetrievePage() {
           </div>
 
           <p className="text-center text-xs text-muted flex items-center justify-center gap-1" style={{ marginBottom: 20 }}>
-            <Lightbulb size={14} /> Paste the code directly into any box to auto-fill all digits
+            <Lightbulb size={14} /> Paste the code directly — all 4 characters fill at once
           </p>
 
           {error && (
@@ -204,7 +204,7 @@ export default function RetrievePage() {
             id="retrieve-submit-btn"
             className="btn btn-primary btn-full btn-lg"
             onClick={handleRetrieve}
-            disabled={code.length !== 6 || loading}
+            disabled={code.length !== 4 || loading}
           >
             {loading ? (
               <>

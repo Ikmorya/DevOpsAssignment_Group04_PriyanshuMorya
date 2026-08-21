@@ -5,9 +5,9 @@ import Image from 'next/image';
 import BackgroundTicker from './HomeSidePanel';
 
 export const metadata: Metadata = {
-  title: 'FileVault — Secure File Sharing with 6-Digit Codes',
-  description: 'Upload files and share them instantly with a secure 6-digit access code. No account needed to retrieve files. Files auto-expire after 24 hours.',
-  keywords: ['file sharing', 'secure upload', 'temporary files', '6-digit code', 'file transfer'],
+  title: 'FileVault — Secure File Sharing with 4-Character Codes',
+  description: 'Upload files and share them instantly with a secure 4-character access code. No account needed to retrieve files. Files auto-expire after 24 hours.',
+  keywords: ['file sharing', 'secure upload', 'temporary files', '4-character code', 'file transfer'],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

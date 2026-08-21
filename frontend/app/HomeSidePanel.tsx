@@ -7,29 +7,29 @@ const COL_A = [
   { title: 'Crypto Code', desc: 'Generated with crypto.randomInt — never sequential or guessable.' },
   { title: 'Auto Expiry', desc: 'All files and codes are purged after exactly 24 hours.' },
   { title: 'Zero Account', desc: 'No sign-up, no email, no password — completely anonymous.' },
-  { title: '20 Files Max', desc: 'Bundle up to 20 files under a single 6-digit access code.' },
+  { title: '20 Files Max', desc: 'Bundle up to 20 files under a single 4 charcode access code.' },
   { title: 'Live Progress', desc: 'A real-time progress bar tracks your upload percentage.' },
 ];
 
 const COL_B = [
-  { title: 'Paste Code', desc: 'Paste all 6 digits at once — auto-fills every input box.' },
+  { title: 'Paste Code', desc: 'Paste all 4 charcode at once — auto-fills every input box.' },
   { title: 'Rate Limited', desc: '5 retrieval attempts per IP per minute prevent brute-force.' },
   { title: 'Code Badge', desc: '.js .py .go .ts files automatically receive a code badge.' },
   { title: 'Any Format', desc: 'PDFs, ZIPs, executables, images — no file type is blocked.' },
-  { title: 'Instant Share', desc: 'Share the 6-digit code via text, email, or voice call.' },
+  { title: 'Instant Share', desc: 'Share the 4 charcode via text, email, or voice call.' },
   { title: 'No Metadata', desc: 'Zero IP logs, zero analytics, zero file name tracking.' },
   { title: 'Download Count', desc: 'See how many times files have been downloaded in results.' },
   { title: 'TTL Index', desc: 'MongoDB TTL index auto-purges data — no cron jobs needed.' },
 ];
 
 const COL_C = [
-  { title: 'Auto Advance', desc: 'Cursor moves to the next digit box automatically as you type.' },
-  { title: '1M Codes', desc: 'One million possible codes — brute-force takes years to crack.' },
+  { title: 'Auto Advance', desc: 'Cursor moves to the next char box automatically as you type.' },
+  { title: '800K+ Codes', desc: 'Over 800,000 possible codes — brute-force takes years to crack.' },
   { title: 'Expiry Timer', desc: 'Countdown timer shows exactly when a code will be deleted.' },
   { title: 'Copy Code', desc: 'Tap Copy Code to send it to your clipboard in one click.' },
   { title: 'Glass UI', desc: 'Glassmorphism interface with dark mode and smooth animations.' },
   { title: 'Horizontal Scale', desc: 'Stateless backend — can scale to multiple nodes instantly.' },
-  { title: 'Backspace Nav', desc: 'Backspace on an empty box moves back to correct a digit.' },
+  { title: 'Backspace Nav', desc: 'Backspace on an empty box moves back to correct a character.' },
   { title: 'File Preview', desc: 'Review all selected files before uploading — remove any easily.' },
 ];
 

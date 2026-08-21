@@ -12,35 +12,35 @@ on this repo. It has two parts:
 
 ### 1.1 One-line description
 A cloud storage service where a user uploads files (code files or normal files),
-gets a **secure 6-digit access code**, and anyone with that code can retrieve the
+gets a **secure 4-character access code**, and anyone with that code can retrieve the
 file(s) later from a web page — no account required for retrieval.
 
 ### 1.2 Core user flow
 1. **Upload** — User (optionally logged in) uploads one or more files.
-2. **Code generation** — Server generates a random 6-digit code, maps it to the
+2. **Code generation** — Server generates a random 4-character code, maps it to the
    uploaded file(s) in the database, and shows it to the uploader.
-3. **Retrieval** — A different user visits `/retrieve`, enters the 6-digit code,
+3. **Retrieval** — A different user visits `/retrieve`, enters the 4-character code,
    and downloads the file(s) if the code is valid and not expired.
 4. **Expiry/cleanup** — Codes expire after a set time (default: 24h, configurable)
    or after N downloads (default: unlimited unless "burn after read" is set).
 
 ### 1.3 Minimum feature set (v1)
 - [ ] File upload (drag-drop + button), multiple files per code
-- [ ] 6-digit numeric code generation, collision-checked against active codes
+- [ ] 4-character alphanumeric code generation, collision-checked against active codes
 - [ ] Code-based retrieval page (no login needed)
 - [ ] Expiry: time-based (default 24h) + optional manual delete by uploader
 - [ ] File type distinction: "code" files get syntax-highlighted preview;
       "normal" files get a plain download card
-- [ ] Rate limiting on code entry (prevent brute-forcing 6-digit codes)
+- [ ] Rate limiting on code entry (prevent brute-forcing 4-character codes)
 - [ ] Basic virus/type scanning or at least extension allow/deny list
 
 ### 1.4 Security requirements (non-negotiable)
-- 6-digit code space is only 1,000,000 combinations — **must** be protected by:
+- 4-character code space is over 800,000 combinations — **must** be protected by:
   - Rate limiting (e.g., 5 attempts / IP / minute, exponential backoff)
   - Short default expiry (24h) so brute-force window is small
   - Optional: pair code with an email/OTP step for sensitive files
 - All uploads go to object storage (S3 / R2 / GCS), never local disk in prod
-- Signed, time-limited URLs for actual file bytes — the 6-digit code maps to a
+- Signed, time-limited URLs for actual file bytes — the 4-character code maps to a
   short-lived signed URL, it is never the direct storage key
 - Files encrypted at rest (bucket-level SSE is enough for v1)
 - No code should ever be guessable/sequential — use CSPRNG
@@ -55,7 +55,7 @@ file(s) later from a web page — no account required for retrieval.
   ```js
   {
     _id: ObjectId,
-    code: "483920",        // unique index, 6-digit string (keep leading zeros)
+    code: "A3KX",        // unique index, 4-character string
     storageKey: "...",      // S3/R2 object key, never exposed directly
     filename: "invoice.pdf",
     fileType: "code" | "normal",
@@ -158,7 +158,7 @@ unchanged code. Follow these strictly.
       retrieve.js           # GET /api/retrieve/:code
     /lib
       storage.js            # S3/R2 client wrapper
-      codeGenerator.js       # CSPRNG 6-digit code + collision check (queries Mongo)
+      codeGenerator.js       # CSPRNG 4-character code + collision check (queries Mongo)
       rateLimit.js
     /models
       File.js                # Mongoose schema (code, storageKey, expiresAt TTL index, ...)

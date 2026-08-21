@@ -2,7 +2,7 @@ const rateLimit = require('express-rate-limit');
 
 /**
  * Strict limiter for the code-retrieval endpoint.
- * 5 attempts per IP per minute — prevents brute-forcing the 6-digit space.
+ * 5 attempts per IP per minute — prevents brute-forcing the 4-character space.
  */
 const retrieveLimiter = rateLimit({
   windowMs: 60 * 1000,  // 1 minute

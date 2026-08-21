@@ -5,7 +5,7 @@ const fileSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    length: 6,
+    length: 4,
     index: true,
   },
   files: [

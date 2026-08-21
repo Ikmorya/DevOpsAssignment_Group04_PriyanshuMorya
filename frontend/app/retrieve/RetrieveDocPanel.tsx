@@ -5,8 +5,8 @@ import { useEffect, useRef, useCallback } from 'react';
 const RETRIEVE_STEPS = [
   {
     step: '01', tag: 'Start',
-    title: 'Get the 6-Digit Code',
-    desc: 'Ask the sender for the 6-digit access code they received after uploading. This is the only thing you need — no link, no account.',
+    title: 'Get the 4 Charcode',
+    desc: 'Ask the sender for the 4 charcode access code they received after uploading. This is the only thing you need — no link, no account.',
   },
   {
     step: '02', tag: 'Start',
@@ -15,13 +15,13 @@ const RETRIEVE_STEPS = [
   },
   {
     step: '03', tag: 'Input',
-    title: 'Enter Digits One by One',
-    desc: 'Click the first box and type your code. The cursor automatically advances to the next box after each digit — just type straight through.',
+    title: 'Enter Characters One by One',
+    desc: 'Click the first box and type your code. The cursor automatically advances to the next box after each character — just type straight through.',
   },
   {
     step: '04', tag: 'Input',
     title: 'Paste the Entire Code',
-    desc: 'You can paste all 6 digits at once — click any box, then paste. The app auto-fills all six boxes instantly.',
+    desc: 'You can paste all 4 charcode at once — click any box, then paste. The app auto-fills all four boxes instantly.',
   },
   {
     step: '05', tag: 'Input',
@@ -31,7 +31,7 @@ const RETRIEVE_STEPS = [
   {
     step: '06', tag: 'Lookup',
     title: 'Hit Retrieve',
-    desc: 'Once all 6 digits are filled, the Retrieve button activates. Tap it to look up your files. The search takes under a second.',
+    desc: 'Once all 4 charcode are filled, the Retrieve button activates. Tap it to look up your files. The search takes under a second.',
   },
   {
     step: '07', tag: 'Lookup',
@@ -61,12 +61,12 @@ const RETRIEVE_STEPS = [
   {
     step: '12', tag: 'Security',
     title: 'Rate Limiting Protection',
-    desc: 'Only 5 code retrieval attempts are allowed per IP per minute. This blocks automated brute-force guessing of 6-digit codes.',
+    desc: 'Only 5 code retrieval attempts are allowed per IP per minute. This blocks automated brute-force guessing of 4 charcode codes.',
   },
   {
     step: '13', tag: 'Security',
     title: 'Code Space is Vast',
-    desc: 'With 1,000,000 possible codes and rate limiting active, it would take years to brute-force a single valid code.',
+    desc: 'With over 800,000 possible codes and rate limiting active, brute-forcing a single valid code would take years.',
   },
   {
     step: '14', tag: 'Expiry',

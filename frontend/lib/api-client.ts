@@ -59,7 +59,7 @@ export async function uploadFiles(
 }
 
 /**
- * Fetch metadata for a given 6-digit code
+ * Fetch metadata for a given 4-character code
  */
 export async function retrieveCode(code: string): Promise<RetrieveResponse> {
   const res = await fetch(`${API_URL}/api/retrieve/${code}`);

@@ -41,13 +41,13 @@ const DOC_STEPS = [
   {
     step: '04',
     title: 'Upload & Get Code',
-    desc: 'Hit Upload. Within seconds you\'ll receive a unique 6-digit code. This code is generated with crypto.randomInt — never guessable.',
+    desc: 'Hit Upload. Within seconds you\'ll receive a unique 4 charcode. This code is generated with crypto.randomInt — never guessable.',
     tag: 'How It Works',
   },
   {
     step: '05',
     title: 'Share The Code',
-    desc: 'Send the 6-digit code to anyone via message, email, or verbally. They don\'t need an account — just the code.',
+    desc: 'Send the 4 charcode to anyone via message, email, or verbally. They don\'t need an account — just the code.',
     tag: 'Sharing',
   },
   {
@@ -65,7 +65,7 @@ const DOC_STEPS = [
   {
     step: '08',
     title: 'Rate Limiting',
-    desc: 'Retrieval is rate-limited to 5 attempts per IP per minute, protecting against brute-force attacks on the 6-digit code space.',
+    desc: 'Retrieval is rate-limited to 5 attempts per IP per minute, protecting against brute-force attacks on the 4 charcode space.',
     tag: 'Security',
   },
 ];
@@ -134,7 +134,7 @@ export default function UploadPage() {
       <div className="container" style={{ maxWidth: 560, paddingTop: 40, paddingBottom: 80 }}>
         <div className="page-header" style={{ padding: '20px 0 32px' }}>
           <h1><CheckCircle size={32} className="inline text-success mr-2" /> Upload Complete!</h1>
-          <p>Share the 6-digit code below with anyone to let them download your files.</p>
+          <p>Share the 4 charcode below with anyone to let them download your files.</p>
         </div>
 
         <div className="code-card">
@@ -194,7 +194,7 @@ export default function UploadPage() {
       <div className="two-col-right">
         <div className="page-header" style={{ padding: '0 0 28px', textAlign: 'left' }}>
           <h1>Upload <span className="text-gradient">Files</span></h1>
-          <p style={{ textAlign: 'left' }}>Drag and drop your files below. You'll get a 6-digit code to share.</p>
+          <p style={{ textAlign: 'left' }}>Drag and drop your files below. You'll get a 4 charcode to share.</p>
         </div>
 
         {/* Drop zone */}
