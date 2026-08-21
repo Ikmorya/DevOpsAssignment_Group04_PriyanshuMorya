@@ -122,20 +122,17 @@ input {
   animation: float-3 15s ease-in-out infinite alternate;
 }
 
-/* ── Innovative Landing Page Elements ────────────────────────────────────────*/
 .hero-bg-grid {
-  position: absolute;
-  top: -100px;
+  position: fixed;
+  top: 0;
   left: 0;
-  width: 100%;
-  height: 120%;
-  z-index: -1;
+  width: 100vw;
+  height: 100vh;
+  z-index: -2;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
   background-size: 40px 40px;
-  mask-image: radial-gradient(ellipse at top, black 10%, transparent 70%);
-  -webkit-mask-image: radial-gradient(ellipse at top, black 10%, transparent 70%);
   pointer-events: none;
 }
 

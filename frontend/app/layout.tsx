@@ -21,6 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="mesh-bg">
           <div className="mesh-blob-3" />
         </div>
+        <div className="hero-bg-grid" />
         <BackgroundTicker />
         <div className="page-wrapper">
           <nav className="navbar">
