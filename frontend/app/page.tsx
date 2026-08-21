@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { ShieldCheck, Timer, Flame, Shield, Files, Zap, UploadCloud, Hash, DownloadCloud, Trash2 } from 'lucide-react';
+import { ShieldCheck, Timer, Flame, Shield, Files, Zap, UploadCloud, Hash, DownloadCloud, Trash2, Lock, FileText, Database } from 'lucide-react';
 
 export default function HomePage() {
   const [typedText, setTypedText] = useState('');
@@ -22,7 +22,14 @@ export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="hero animate-fade-in-up">
+      <section className="hero animate-fade-in-up" style={{ position: 'relative' }}>
+        <div className="hero-bg-grid"></div>
+        
+        {/* Floating Icons */}
+        <Lock className="floating-element float-1" size={64} />
+        <Database className="floating-element float-2" size={80} />
+        <FileText className="floating-element float-3" size={56} />
+        <Shield className="floating-element float-4" size={72} />
         <div className="hero-badge">
           <ShieldCheck size={14} style={{ color: 'var(--text-secondary)' }} /> Secure &middot; Ephemeral &middot; Zero-Account
         </div>
@@ -45,8 +52,8 @@ export default function HomePage() {
         </div>
 
         {/* Floating code preview */}
-        <div style={{ marginTop: 16 }} className="animate-fade-in-scale delay-200">
-          <div className="code-card" style={{ display: 'inline-block', padding: '28px 40px' }}>
+        <div style={{ marginTop: 16 }} className="animate-fade-in-scale delay-200 relative">
+          <div className="code-card hero-code-card" style={{ display: 'inline-block', padding: '28px 40px', boxShadow: 'var(--shadow-glow)', position: 'relative', zIndex: 1 }}>
             <div className="code-label">Your access code</div>
             <div className="code-digits">
               {['A', '3', 'K', 'X'].map((d, i) => (
