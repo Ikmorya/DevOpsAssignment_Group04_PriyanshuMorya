@@ -2,6 +2,7 @@
 
 import { useRef, useState } from 'react';
 import { Package, Flame, AlertTriangle, Code, Lightbulb, Timer, Shield } from 'lucide-react';
+import RetrieveDocPanel from './RetrieveDocPanel';
 import {
   retrieveCode, getDownloadUrl, RetrieveResponse,
   formatBytes, formatExpiry, getFileTypeIcon,
@@ -145,89 +146,111 @@ export default function RetrievePage() {
 
   // ── Code entry view ─────────────────────────────────────────────────────────
   return (
-    <div className="container" style={{ maxWidth: 520, paddingTop: 40, paddingBottom: 80 }}>
-      <div className="page-header" style={{ padding: '20px 0 8px' }}>
-        <h1>Retrieve <span className="text-gradient">Files</span></h1>
-        <p>Enter the 6-digit code you received to access your files.</p>
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 0,
+      minHeight: 'calc(100vh - 100px)',
+      maxWidth: 1200,
+      margin: '0 auto',
+      padding: '0 24px 80px',
+    }}>
+
+      {/* ── LEFT: 3D Retrieve Doc Panel ─────────────────────────────── */}
+      <div style={{
+        position: 'sticky',
+        top: 100,
+        alignSelf: 'start',
+        padding: '40px 32px 40px 0',
+      }}>
+        <RetrieveDocPanel />
       </div>
 
-      <div className="card" style={{ marginTop: 24 }}>
-        <div className="text-center" style={{ marginBottom: 8 }}>
-          <span style={{
-            fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.1em',
-            textTransform: 'uppercase', color: 'var(--text-muted)',
-          }}>
-            Enter 6-digit access code
-          </span>
+      {/* ── RIGHT: Retrieve Form ────────────────────────────────────── */}
+      <div style={{ padding: '40px 0 40px 32px', borderLeft: '1px solid var(--border)' }}>
+        <div className="page-header" style={{ padding: '0 0 28px', textAlign: 'left' }}>
+          <h1>Retrieve <span className="text-gradient">Files</span></h1>
+          <p style={{ textAlign: 'left' }}>Enter the 6-digit code you received to access your files.</p>
         </div>
 
-        <div className="digit-inputs" onPaste={handlePaste}>
-          {digits.map((d, i) => (
-            <input
-              key={i}
-              ref={setRef(i)}
-              id={`digit-input-${i}`}
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              maxLength={1}
-              value={d}
-              placeholder="·"
-              className="digit-input"
-              aria-label={`Digit ${i + 1} of 6`}
-              onChange={(e) => handleDigitChange(i, e.target.value)}
-              onKeyDown={(e) => handleKeyDown(i, e)}
-            />
-          ))}
-        </div>
-
-        <p className="text-center text-xs text-muted flex items-center justify-center gap-1" style={{ marginBottom: 20 }}>
-          <Lightbulb size={14} /> Paste the code directly into any box to auto-fill all digits
-        </p>
-
-        {error && (
-          <div className="alert alert-error" style={{ marginBottom: 16 }} role="alert">
-            <AlertTriangle size={16} className="inline mr-2" /> {error}
+        <div className="card" style={{ marginTop: 0 }}>
+          <div className="text-center" style={{ marginBottom: 8 }}>
+            <span style={{
+              fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.1em',
+              textTransform: 'uppercase', color: 'var(--text-muted)',
+            }}>
+              Enter 6-digit access code
+            </span>
           </div>
-        )}
 
-        <button
-          id="retrieve-submit-btn"
-          className="btn btn-primary btn-full btn-lg"
-          onClick={handleRetrieve}
-          disabled={code.length !== 6 || loading}
-        >
-          {loading ? (
-            <>
-              <svg className="progress-ring" width="18" height="18" viewBox="0 0 18 18">
-                <circle cx="9" cy="9" r="7" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2" />
-                <circle cx="9" cy="9" r="7" fill="none" stroke="white" strokeWidth="2"
-                  strokeDasharray="44" strokeDashoffset="33" strokeLinecap="round" />
-              </svg>
-              Searching…
-            </>
-          ) : '↓ Retrieve Files'}
-        </button>
-      </div>
+          <div className="digit-inputs" onPaste={handlePaste}>
+            {digits.map((d, i) => (
+              <input
+                key={i}
+                ref={setRef(i)}
+                id={`digit-input-${i}`}
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                maxLength={1}
+                value={d}
+                placeholder="·"
+                className="digit-input"
+                aria-label={`Digit ${i + 1} of 6`}
+                onChange={(e) => handleDigitChange(i, e.target.value)}
+                onKeyDown={(e) => handleKeyDown(i, e)}
+              />
+            ))}
+          </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 20 }}>
-        <div className="card card-sm" style={{ textAlign: 'center' }}>
-          <div style={{ marginBottom: 6, display: 'flex', justifyContent: 'center' }}><Timer size={24} color="var(--accent-1)" /></div>
-          <div style={{ fontSize: '0.8rem', fontWeight: 700 }}>24h Expiry</div>
-          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 4 }}>Codes auto-delete after 24 hours</div>
+          <p className="text-center text-xs text-muted flex items-center justify-center gap-1" style={{ marginBottom: 20 }}>
+            <Lightbulb size={14} /> Paste the code directly into any box to auto-fill all digits
+          </p>
+
+          {error && (
+            <div className="alert alert-error" style={{ marginBottom: 16 }} role="alert">
+              <AlertTriangle size={16} className="inline mr-2" /> {error}
+            </div>
+          )}
+
+          <button
+            id="retrieve-submit-btn"
+            className="btn btn-primary btn-full btn-lg"
+            onClick={handleRetrieve}
+            disabled={code.length !== 6 || loading}
+          >
+            {loading ? (
+              <>
+                <svg className="progress-ring" width="18" height="18" viewBox="0 0 18 18">
+                  <circle cx="9" cy="9" r="7" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2" />
+                  <circle cx="9" cy="9" r="7" fill="none" stroke="white" strokeWidth="2"
+                    strokeDasharray="44" strokeDashoffset="33" strokeLinecap="round" />
+                </svg>
+                Searching…
+              </>
+            ) : '↓ Retrieve Files'}
+          </button>
         </div>
-        <div className="card card-sm" style={{ textAlign: 'center' }}>
-          <div style={{ marginBottom: 6, display: 'flex', justifyContent: 'center' }}><Shield size={24} color="var(--accent-1)" /></div>
-          <div style={{ fontSize: '0.8rem', fontWeight: 700 }}>Rate Limited</div>
-          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 4 }}>5 attempts / min to prevent brute-force</div>
-        </div>
-      </div>
 
-      <div className="text-center mt-6">
-        <p className="text-sm text-secondary">
-          Don&apos;t have a code?{' '}
-          <a href="/upload" style={{ color: 'var(--accent-1)', fontWeight: 600 }}>Upload files →</a>
-        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 20 }}>
+          <div className="card card-sm" style={{ textAlign: 'center' }}>
+            <div style={{ marginBottom: 6, display: 'flex', justifyContent: 'center' }}><Timer size={24} color="var(--accent-1)" /></div>
+            <div style={{ fontSize: '0.8rem', fontWeight: 700 }}>24h Expiry</div>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 4 }}>Codes auto-delete after 24 hours</div>
+          </div>
+          <div className="card card-sm" style={{ textAlign: 'center' }}>
+            <div style={{ marginBottom: 6, display: 'flex', justifyContent: 'center' }}><Shield size={24} color="var(--accent-1)" /></div>
+            <div style={{ fontSize: '0.8rem', fontWeight: 700 }}>Rate Limited</div>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 4 }}>5 attempts / min to prevent brute-force</div>
+          </div>
+        </div>
+
+        <div className="text-center mt-6">
+          <p className="text-sm text-secondary">
+            Don&apos;t have a code?{' '}
+            <a href="/upload" style={{ color: 'var(--accent-1)', fontWeight: 600 }}>Upload files →</a>
+          </p>
+        </div>
       </div>
     </div>
   );
