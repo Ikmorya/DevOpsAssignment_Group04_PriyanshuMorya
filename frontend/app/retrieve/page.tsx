@@ -1,21 +1,22 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import { Package, Flame, AlertTriangle, Code, Lightbulb, Timer, Shield } from 'lucide-react';
 import {
   retrieveCode, getDownloadUrl, RetrieveResponse,
   formatBytes, formatExpiry, getFileTypeIcon,
 } from '../../lib/api-client';
 
 export default function RetrievePage() {
-  const [digits, setDigits]   = useState<string[]>(Array(6).fill(''));
+  const [digits, setDigits] = useState<string[]>(Array(6).fill(''));
   const [loading, setLoading] = useState(false);
-  const [result, setResult]   = useState<RetrieveResponse | null>(null);
-  const [error, setError]     = useState('');
+  const [result, setResult] = useState<RetrieveResponse | null>(null);
+  const [error, setError] = useState('');
   // Single ref array — avoids calling useRef inside a loop (Rules of Hooks)
   const inputRefs = useRef<(HTMLInputElement | null)[]>(Array(6).fill(null));
 
   const focusAt = (i: number) => inputRefs.current[i]?.focus();
-  const setRef  = (i: number) => (el: HTMLInputElement | null) => { inputRefs.current[i] = el; };
+  const setRef = (i: number) => (el: HTMLInputElement | null) => { inputRefs.current[i] = el; };
 
   const code = digits.join('');
 
@@ -69,7 +70,7 @@ export default function RetrievePage() {
     return (
       <div className="container" style={{ maxWidth: 640, paddingTop: 40, paddingBottom: 80 }}>
         <div className="page-header" style={{ padding: '20px 0 24px' }}>
-          <h1>Files Found! 📦</h1>
+          <h1><Package size={32} className="inline mr-2 text-success" /> Files Found!</h1>
           <p>
             Code{' '}
             <span style={{ fontFamily: 'JetBrains Mono, monospace', color: 'var(--accent-2)', fontWeight: 700 }}>
@@ -80,14 +81,14 @@ export default function RetrievePage() {
               {formatExpiry(result.expiresAt)}
             </span>
             {result.burnAfterRead && (
-              <span style={{ color: 'var(--accent-3)', marginLeft: 8 }}>🔥 Burn after read</span>
+              <span style={{ color: 'var(--error)', marginLeft: 8 }}><Flame size={14} className="inline" /> Burn after read</span>
             )}
           </p>
         </div>
 
         {result.burnAfterRead && (
           <div className="alert alert-error" style={{ marginBottom: 16 }}>
-            ⚠️ These files will be permanently deleted after download!
+            <AlertTriangle size={16} className="inline mr-2" /> These files will be permanently deleted after download!
           </div>
         )}
 
@@ -99,7 +100,7 @@ export default function RetrievePage() {
                 <div className="download-file-name">
                   {f.filename}
                   {f.fileType === 'code' && (
-                    <span className="download-code-badge">⌨️ code</span>
+                    <span className="download-code-badge"><Code size={12} className="inline mr-1" /> code</span>
                   )}
                 </div>
                 <div className="download-file-meta">{formatBytes(f.size)} · {f.mimetype}</div>
@@ -180,13 +181,13 @@ export default function RetrievePage() {
           ))}
         </div>
 
-        <p className="text-center text-xs text-muted" style={{ marginBottom: 20 }}>
-          💡 Paste the code directly into any box to auto-fill all digits
+        <p className="text-center text-xs text-muted flex items-center justify-center gap-1" style={{ marginBottom: 20 }}>
+          <Lightbulb size={14} /> Paste the code directly into any box to auto-fill all digits
         </p>
 
         {error && (
           <div className="alert alert-error" style={{ marginBottom: 16 }} role="alert">
-            ⚠️ {error}
+            <AlertTriangle size={16} className="inline mr-2" /> {error}
           </div>
         )}
 
@@ -211,12 +212,12 @@ export default function RetrievePage() {
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 20 }}>
         <div className="card card-sm" style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 24, marginBottom: 6 }}>⏱️</div>
+          <div style={{ marginBottom: 6, display: 'flex', justifyContent: 'center' }}><Timer size={24} color="var(--accent-1)" /></div>
           <div style={{ fontSize: '0.8rem', fontWeight: 700 }}>24h Expiry</div>
           <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 4 }}>Codes auto-delete after 24 hours</div>
         </div>
         <div className="card card-sm" style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 24, marginBottom: 6 }}>🛡️</div>
+          <div style={{ marginBottom: 6, display: 'flex', justifyContent: 'center' }}><Shield size={24} color="var(--accent-1)" /></div>
           <div style={{ fontSize: '0.8rem', fontWeight: 700 }}>Rate Limited</div>
           <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 4 }}>5 attempts / min to prevent brute-force</div>
         </div>

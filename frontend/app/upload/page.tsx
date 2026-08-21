@@ -1,15 +1,16 @@
 'use client';
 
 import { useCallback, useRef, useState } from 'react';
+import { CheckCircle, Lock, Flame, Copy, Check, Folder, Lightbulb, UploadCloud, AlertTriangle, X } from 'lucide-react';
 import {
   uploadFiles, UploadResponse,
   formatBytes, formatExpiry, getFileTypeIcon,
 } from '../../lib/api-client';
 
 const CODE_EXTS = new Set([
-  'js','ts','jsx','tsx','py','java','c','cpp','cs','go','rb','php',
-  'sh','bash','html','css','json','xml','yaml','yml','toml','rs',
-  'swift','kt','sql','txt','md',
+  'js', 'ts', 'jsx', 'tsx', 'py', 'java', 'c', 'cpp', 'cs', 'go', 'rb', 'php',
+  'sh', 'bash', 'html', 'css', 'json', 'xml', 'yaml', 'yml', 'toml', 'rs',
+  'swift', 'kt', 'sql', 'txt', 'md',
 ]);
 
 function isCodeFile(name: string) {
@@ -18,15 +19,15 @@ function isCodeFile(name: string) {
 }
 
 export default function UploadPage() {
-  const [files, setFiles]           = useState<File[]>([]);
-  const [dragOver, setDragOver]     = useState(false);
-  const [burnAfterRead, setBurn]    = useState(false);
-  const [uploading, setUploading]   = useState(false);
-  const [progress, setProgress]     = useState(0);
-  const [result, setResult]         = useState<UploadResponse | null>(null);
-  const [error, setError]           = useState('');
-  const [copied, setCopied]         = useState(false);
-  const fileInputRef                = useRef<HTMLInputElement>(null);
+  const [files, setFiles] = useState<File[]>([]);
+  const [dragOver, setDragOver] = useState(false);
+  const [burnAfterRead, setBurn] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [result, setResult] = useState<UploadResponse | null>(null);
+  const [error, setError] = useState('');
+  const [copied, setCopied] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // ── Handlers ────────────────────────────────────────────────────────────────
   const addFiles = useCallback((newFiles: FileList | null) => {
@@ -81,12 +82,12 @@ export default function UploadPage() {
     return (
       <div className="container" style={{ maxWidth: 560, paddingTop: 40, paddingBottom: 80 }}>
         <div className="page-header" style={{ padding: '20px 0 32px' }}>
-          <h1>Upload Complete! 🎉</h1>
+          <h1><CheckCircle size={32} className="inline text-success mr-2" /> Upload Complete!</h1>
           <p>Share the 6-digit code below with anyone to let them download your files.</p>
         </div>
 
         <div className="code-card">
-          <div className="code-label">🔐 Your secure access code</div>
+          <div className="code-label"><Lock size={16} className="inline mr-1" /> Your secure access code</div>
           <div className="code-digits">
             {result.code.split('').map((d, i) => (
               <div key={i} className="code-digit">{d}</div>
@@ -94,7 +95,7 @@ export default function UploadPage() {
           </div>
           <div className="code-expiry">
             Auto-deletes in <span>{formatExpiry(result.expiresAt)}</span>
-            {burnAfterRead && <> &nbsp;·&nbsp; <span style={{ color: 'var(--accent-3)' }}>🔥 Burn after read</span></>}
+            {burnAfterRead && <> &nbsp;·&nbsp; <span style={{ color: 'var(--error)' }}><Flame size={14} className="inline" /> Burn after read</span></>}
           </div>
           <div className="code-copy-btn">
             <button
@@ -103,17 +104,17 @@ export default function UploadPage() {
               onClick={copyCode}
               style={{ minWidth: 160 }}
             >
-              {copied ? '✓ Copied!' : '📋 Copy Code'}
+              {copied ? <><Check size={18} className="inline mr-1" /> Copied!</> : <><Copy size={18} className="inline mr-1" /> Copy Code</>}
             </button>
           </div>
         </div>
 
         <div className="card" style={{ marginTop: 20 }}>
           <div className="flex items-center justify-between mb-4">
-            <span style={{ fontWeight: 700 }}>📂 {result.fileCount} file{result.fileCount !== 1 ? 's' : ''} uploaded</span>
+            <span style={{ fontWeight: 700, display: 'flex', alignItems: 'center', gap: '8px' }}><Folder size={18} /> {result.fileCount} file{result.fileCount !== 1 ? 's' : ''} uploaded</span>
           </div>
           <div className="alert alert-info" style={{ fontSize: '0.82rem' }}>
-            💡 Tip: Send this code via message. Anyone can retrieve files at <strong>filevault.app/retrieve</strong>
+            <Lightbulb size={16} className="inline mr-1" /> Tip: Send this code via message. Anyone can retrieve files at <strong>filevault.app/retrieve</strong>
           </div>
         </div>
 
@@ -154,7 +155,9 @@ export default function UploadPage() {
         aria-label="File drop zone"
         onKeyDown={(e) => e.key === 'Enter' && fileInputRef.current?.click()}
       >
-        <div className="upload-icon">{dragOver ? '📂' : '☁️'}</div>
+        <div className="upload-icon" style={{ display: 'flex', justifyContent: 'center' }}>
+          {dragOver ? <UploadCloud size={48} color="var(--accent-1)" /> : <UploadCloud size={48} color="var(--text-muted)" />}
+        </div>
         <div className="upload-title">
           {dragOver ? 'Drop files here' : 'Drag & drop files here'}
         </div>
@@ -189,7 +192,7 @@ export default function UploadPage() {
                   onClick={() => removeFile(i)}
                   aria-label={`Remove ${f.name}`}
                   id={`remove-file-${i}`}
-                >×</button>
+                ><X size={16} /></button>
               </div>
             );
           })}
@@ -200,7 +203,7 @@ export default function UploadPage() {
       <div className="card" style={{ marginTop: 24 }}>
         <div className="toggle-row" style={{ borderTop: 'none', paddingTop: 0 }}>
           <div className="toggle-label">
-            <strong>🔥 Burn after read</strong>
+            <strong style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Flame size={16} color="var(--error)" /> Burn after read</strong>
             Files delete permanently after first download
           </div>
           <label className="toggle">
@@ -247,7 +250,7 @@ export default function UploadPage() {
       {/* Error */}
       {error && (
         <div className="alert alert-error mt-4" role="alert">
-          ⚠️ {error}
+          <AlertTriangle size={16} className="inline mr-1" /> {error}
         </div>
       )}
 

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import './globals.css';
+import Image from 'next/image';
 
 export const metadata: Metadata = {
   title: 'FileVault — Secure File Sharing with 6-Digit Codes',
@@ -22,9 +23,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="page-wrapper">
           <nav className="navbar">
             <div className="navbar-inner">
-              <Link href="/" className="navbar-logo">
-                <div className="navbar-logo-icon">⚡</div>
-                <span>FileVault</span>
+              <Link href="/" className="navbar-logo" style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
+                <Image
+                  src="/logo.png"
+                  alt="DROPP Logo"
+                  width={280}
+                  height={120}
+                  style={{ objectFit: 'contain' }}
+                  priority
+                />
               </Link>
               <div className="navbar-links">
                 <Link href="/upload" className="nav-link" id="nav-upload">Upload</Link>
@@ -37,7 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </main>
           <footer className="footer">
             <p>
-              Built with 💜 &nbsp;·&nbsp; Files auto-expire in 24h &nbsp;·&nbsp;
+              Built with 💜  &nbsp;·&nbsp; Files auto-expire in 24h &nbsp;·&nbsp;
               <Link href="/upload">Upload</Link> &nbsp;·&nbsp; <Link href="/retrieve">Retrieve</Link>
             </p>
           </footer>
