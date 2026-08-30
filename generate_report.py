@@ -99,4 +99,40 @@ def get_git_metrics(interval="weekly"):
             else:
                 continue
             
-            # Exclude bot commi
+            # Exclude bot commits from metric calculations
+            if "bot" in author.lower() or "github-actions" in author.lower():
+                current_author = None
+                continue
+            
+            current_author = author
+            current_date_str = date_str
+            
+            students[current_author]["commits"] += 1
+            students[current_author]["active_days"].add(current_date_str)
+            student_logs[current_author].append((date_str, sha, msg))
+            
+            try:
+                dt = datetime.datetime.strptime(current_date_str, "%Y-%m-%d").date()
+                if interval == "weekly":
+                    period_key = dt.strftime("%a (%b %d)")
+                elif interval == "monthly":
+                    period_key = f"{dt.isocalendar()[0]}-W{dt.isocalendar()[1]:02d}"
+                else:
+                    period_key = dt.strftime("%Y-%m")
+                timeline_activity[period_key][current_author] += 1
+            except Exception:
+                pass
+
+
+        elif current_author and not line.startswith('COMMIT|||'):
+            parts = line.split()
+            if len(parts) >= 2 and parts[0].isdigit() and parts[1].isdigit():
+                students[current_author]["added"] += int(parts[0])
+                students[current_author]["deleted"] += int(parts[1])
+
+
+    return students, timeline_activity, student_logs, scope_title
+
+
+def create_charts(students, timeline_activity, interval):
+    """Generates workload distribution and timeline
