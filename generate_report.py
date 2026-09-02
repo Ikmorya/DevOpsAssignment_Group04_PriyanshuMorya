@@ -190,4 +190,45 @@ def generate_pdf(interval="weekly"):
         report_title = "Weekly Progress Report"
         doc_name = f"{repo_name}_Weekly_Progress_Report_Form-3_{date_stamp}.pdf"
     elif interval == "monthly":
-        re
+        report_title = "Monthly Progress Report (Form-3)"
+        doc_name = f"{repo_name}_Monthly_Progress_Report_Form-3_{date_stamp}.pdf"
+    else:
+        report_title = "Final Project Evaluation Report"
+        doc_name = f"{repo_name}_Final_Report_{date_stamp}.pdf"
+
+
+    doc = SimpleDocTemplate(
+        doc_name,
+        pagesize=letter,
+        rightMargin=36,
+        leftMargin=36,
+        topMargin=30,
+        bottomMargin=30
+    )
+
+
+    styles = getSampleStyleSheet()
+    
+    college_style = ParagraphStyle(
+        'CollegeStyle', parent=styles['Heading1'],
+        fontSize=13.5, leading=17, textColor=colors.HexColor("#0F172A"), alignment=1, spaceAfter=2
+    )
+    dept_style = ParagraphStyle(
+        'DeptStyle', parent=styles['Normal'],
+        fontSize=9.5, leading=13, textColor=colors.HexColor("#475569"), alignment=1, spaceAfter=6
+    )
+    title_style = ParagraphStyle(
+        'TitleStyle', parent=styles['Heading2'],
+        fontSize=13, leading=17, textColor=colors.HexColor("#1A365D"), alignment=1, spaceAfter=5
+    )
+    repo_style = ParagraphStyle(
+        'RepoStyle', parent=styles['Normal'],
+        fontSize=9.5, leading=14, textColor=colors.HexColor("#0F172A"), spaceAfter=3
+    )
+    meta_style = ParagraphStyle(
+        'MetaStyle', parent=styles['Normal'],
+        fontSize=8.5, textColor=colors.HexColor("#64748B"), spaceAfter=8
+    )
+    section_style = ParagraphStyle(
+        'SectionStyle', parent=styles['Heading2'],
+        fontSize=10.5, leading=14, textColor=col
