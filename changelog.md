@@ -1,2 +1,2 @@
-﻿# v1.1
-Enhanced institution header and department branding in PDF output.
+﻿# v1.2
+Fixed numstat parsing for accurate LOC counting.
