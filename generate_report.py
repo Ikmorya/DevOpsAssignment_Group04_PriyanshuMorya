@@ -231,4 +231,49 @@ def generate_pdf(interval="weekly"):
     )
     section_style = ParagraphStyle(
         'SectionStyle', parent=styles['Heading2'],
-        fontSize=10.5, leading=14, textColor=col
+        fontSize=10.5, leading=14, textColor=colors.HexColor("#0F172A"), spaceBefore=7, spaceAfter=4
+    )
+    sub_section_style = ParagraphStyle(
+        'SubSectionStyle', parent=styles['Heading3'],
+        fontSize=9, leading=12, textColor=colors.HexColor("#2563EB"), spaceBefore=5, spaceAfter=2
+    )
+    msg_style = ParagraphStyle(
+        'MsgStyle', parent=styles['Normal'],
+        fontSize=8, leading=10, textColor=colors.HexColor("#1E293B")
+    )
+    meta_cell_style = ParagraphStyle(
+        'MetaCellStyle', parent=styles['Normal'],
+        fontSize=8, leading=10, textColor=colors.HexColor("#475569"), alignment=1
+    )
+
+
+    story = []
+
+
+    # 1. Header
+    story.append(Paragraph(f"<b>{html.escape(COLLEGE_NAME)}</b>", college_style))
+    story.append(Paragraph(f"<b>{html.escape(DEPARTMENT_NAME)}</b>", dept_style))
+    story.append(Paragraph(f"<u><b>{report_title}</b></u>", title_style))
+    story.append(Spacer(1, 3))
+
+
+    # 2. Metadata
+    story.append(Paragraph(f"<b>Project Repository:</b> <font color='#2563EB'><b>{html.escape(repo_name)}</b></font> &nbsp;|&nbsp; <b>Branch:</b> <code>{html.escape(branch_name)}</code>", repo_style))
+    story.append(Paragraph(f"<b>Evaluation Window:</b> {scope_title} &nbsp;|&nbsp; <b>Generated On:</b> {datetime.date.today().strftime('%B %d, %Y')}", meta_style))
+
+
+    # 3. Individual Summary Table
+    story.append(Paragraph("1. Individual Contribution Breakdown", section_style))
+    total_commits = sum(data["commits"] for data in students.values())
+    table_data = [["Student Name", "Commits (%)", "Lines Added", "Lines Deleted", "Net LOC", "Active Days"]]
+    
+    if students:
+        for name, data in students.items():
+            pct = (data["commits"] / total_commits * 100) if total_commits > 0 else 0
+            net = data["added"] - data["deleted"]
+            table_data.append([
+                html.escape(name),
+                f"{data['commits']} ({pct:.1f}%)",
+                f"+{data['added']:,}",
+                f"-{data['deleted']:,}",
+                f"{net:,}"
