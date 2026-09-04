@@ -1,2 +1,2 @@
-﻿# v1.2
-Fixed numstat parsing for accurate LOC counting.
+﻿# v1.3
+Added visual charts - timeline and net LOC bar chart.
