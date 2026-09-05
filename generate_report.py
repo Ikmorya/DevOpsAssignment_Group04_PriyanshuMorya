@@ -276,4 +276,49 @@ def generate_pdf(interval="weekly"):
                 f"{data['commits']} ({pct:.1f}%)",
                 f"+{data['added']:,}",
                 f"-{data['deleted']:,}",
-                f"{net:,}"
+                f"{net:,}",
+                f"{len(data['active_days'])} days"
+            ])
+    else:
+        table_data.append(["No commits found in this period. Run with 'final' to see all commits.", "-", "-", "-", "-", "-"])
+
+
+    table = Table(table_data, colWidths=[120, 80, 80, 80, 80, 100])
+    table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#1E293B")),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('ALIGN', (0, 1), (0, -1), 'LEFT'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, -1), 8),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 3.5),
+        ('TOPPADDING', (0, 0), (-1, -1), 3.5),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#CBD5E1")),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor("#F8FAFC")]),
+    ]))
+    story.append(table)
+    story.append(Spacer(1, 6))
+
+
+    # 4. Visual Charts
+    story.append(Paragraph("2. Visual Trends & Volume", section_style))
+    chart_image = create_charts(students, timeline_activity, interval)
+    story.append(chart_image)
+    story.append(Spacer(1, 6))
+
+
+    # 5. Detailed Commit Logs per Student
+    story.append(Paragraph(f"3. Detailed Commit Logs ({interval.capitalize()})", section_style))
+    if not student_logs:
+        story.append(Paragraph("<i>No commit logs found for this timeframe.</i>", styles['Normal']))
+    else:
+        for student_name, logs in student_logs.items():
+            student_section = []
+            student_section.append(Paragraph(f"<b>Student:</b> {html.escape(student_name)} — <i>{len(logs)} commit(s)</i>", sub_section_style))
+            
+            log_table_data = [["Date", "Hash", "Commit Message"]]
+            for date_val, sha_val, msg_val in logs:
+                safe_msg = html.escape(msg_val) if msg_val else "(No commit message)"
+                log_table_data.append([
+                    Paragraph(date_val, meta_cell_style),
+  
