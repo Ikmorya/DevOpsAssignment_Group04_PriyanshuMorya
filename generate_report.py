@@ -321,4 +321,34 @@ def generate_pdf(interval="weekly"):
                 safe_msg = html.escape(msg_val) if msg_val else "(No commit message)"
                 log_table_data.append([
                     Paragraph(date_val, meta_cell_style),
-  
+                    Paragraph(f"<code>{sha_val}</code>", meta_cell_style),
+                    Paragraph(safe_msg, msg_style)
+                ])
+            
+            log_table = Table(log_table_data, colWidths=[70, 60, 410])
+            t_style = [
+                ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#475569")),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('FONTSIZE', (0, 0), (-1, -1), 7.5),
+                ('BOTTOMPADDING', (0, 0), (-1, -1), 2.5),
+                ('TOPPADDING', (0, 0), (-1, -1), 2.5),
+                ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#CBD5E1")),
+                ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor("#F8FAFC")]),
+            ]
+            
+            log_table.setStyle(TableStyle(t_style))
+            student_section.append(log_table)
+            student_section.append(Spacer(1, 5))
+            story.append(KeepTogether(student_section))
+
+
+    doc.build(story)
+    print(f"\n[SUCCESS] Generated: {doc_name}")
+    print(f" -> Found {len(students)} student(s) and {total_commits} total commits.")
+
+
+if __name__ == "__main__":
+    chosen_interval = sys.argv[1].lower() if len(sys.argv) > 1 else "weekly"
+    generate_pdf(chosen_interval)
