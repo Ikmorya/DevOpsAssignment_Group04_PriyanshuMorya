@@ -17,3 +17,5 @@ jobs:
         node-version: 18
     - run: npm ci
     - run: npm test --if-present
+    - name: Run Docker Linting
+      run: docker run --rm -i hadolint/hadolint < Dockerfile
