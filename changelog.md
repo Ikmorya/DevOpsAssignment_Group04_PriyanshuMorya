@@ -1,2 +1,2 @@
-﻿# v1.3
-Added visual charts - timeline and net LOC bar chart.
+﻿# v1.4
+Added full interval support: weekly, monthly, final.
