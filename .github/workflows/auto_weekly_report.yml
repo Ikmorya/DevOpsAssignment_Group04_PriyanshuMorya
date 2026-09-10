@@ -34,4 +34,9 @@ jobs:
           python generate_report.py weekly
 
       - name: Move PDF to Weekly Reports Directory & Update Activity Log
-  
+        run: |
+          mkdir -p weekly_reports
+          mv *_Weekly_Progress_Report_Form-3_*.pdf weekly_reports/ || true
+          
+          # Append timestamp to log file to guarantee a new change & commit every week
+          echo "Automated Weekly Report Generated on $(date -u)" >> weekly_repor
