@@ -39,4 +39,12 @@ jobs:
           mv *_Weekly_Progress_Report_Form-3_*.pdf weekly_reports/ || true
           
           # Append timestamp to log file to guarantee a new change & commit every week
-          echo "Automated Weekly Report Generated on $(date -u)" >> weekly_repor
+          echo "Automated Weekly Report Generated on $(date -u)" >> weekly_reports/activity_log.txt
+
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add weekly_reports/
+          
+          if git diff --staged --quiet; then
+            echo "No changes to commit
