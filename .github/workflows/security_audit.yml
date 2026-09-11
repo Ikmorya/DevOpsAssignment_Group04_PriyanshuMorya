@@ -1,0 +1,7 @@
+name: Security Audit Workflow
+on: [push]
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
