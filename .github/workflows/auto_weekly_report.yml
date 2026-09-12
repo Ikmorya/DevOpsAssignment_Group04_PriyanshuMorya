@@ -47,4 +47,8 @@ jobs:
           git add weekly_reports/
           
           if git diff --staged --quiet; then
-            echo "No changes to commit
+            echo "No changes to commit."
+          else
+            git commit -m "docs: archive Form-3 weekly progress report [auto-commit]"
+            git push
+          fi
