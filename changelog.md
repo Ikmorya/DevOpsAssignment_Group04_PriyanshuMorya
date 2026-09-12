@@ -1,2 +1,2 @@
-﻿# v1.4
-Added full interval support: weekly, monthly, final.
+﻿# v1.5
+Fixed edge case when no commits found in interval.
