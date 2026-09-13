@@ -1,0 +1,11 @@
+name: Security Audit
+
+on: [push]
+
+jobs:
+  trivy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
