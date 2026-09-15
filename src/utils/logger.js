@@ -1,3 +1,2 @@
-const logger = (msg) => console.log('[LOG] ' + msg);
+const logger = (msg) => console.log([]  + msg);
 module.exports = logger;
-
