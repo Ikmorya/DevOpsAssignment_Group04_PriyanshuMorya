@@ -7,3 +7,6 @@ Automated report generator script and GitHub Actions CI workflow for compiling w
 - Visual Matplotlib chart generation (LOC and workload breakdown).
 - Professional PDF output styled with ReportLab.
 - Automated weekly GitHub Actions workflow.
+
+
+Author: Priyanshu Dangi
