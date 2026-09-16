@@ -23,9 +23,9 @@ DEPARTMENT_NAME = "Department of Computer Science & Engineering"
 
 
 def get_repo_info():
-    """Extracts the repository name and current branch."""
+    """Extracts the repository name and active branch scope."""
     repo_name = "Project-Repository"
-    branch_name = "main"
+    branch_name = "all-branches"
 
     try:
         root_path = subprocess.check_output(['git', 'rev-parse', '--show-toplevel'], encoding='utf-8').strip()
@@ -47,22 +47,23 @@ def get_repo_info():
 
 def get_git_metrics(interval="weekly"):
     """
-    Parses Git commit logs and aggregates metrics.
+    Parses Git commit logs across ALL branches and aggregates metrics.
     Supported intervals: 'weekly', 'monthly', 'final'
     """
     today = datetime.date.today()
-    git_args = ['git', 'log', '--no-merges', '--pretty=format:COMMIT|||%h|||%an|||%ad|||%s', '--date=short', '--numstat']
+    # Using --all flag to fetch commits from ALL branches in the repository
+    git_args = ['git', 'log', '--all', '--no-merges', '--pretty=format:COMMIT|||%h|||%an|||%ad|||%s', '--date=short', '--numstat']
 
     if interval == "weekly":
         since_date = (today - datetime.timedelta(days=7)).strftime("%Y-%m-%d")
         git_args.append(f"--since={since_date}")
-        scope_title = f"Last 7 Days (Since {since_date})"
+        scope_title = f"Last 7 Days (Since {since_date}) — All Repository Branches"
     elif interval == "monthly":
         since_date = (today - datetime.timedelta(days=30)).strftime("%Y-%m-%d")
         git_args.append(f"--since={since_date}")
-        scope_title = f"Last 30 Days (Since {since_date})"
+        scope_title = f"Last 30 Days (Since {since_date}) — All Repository Branches"
     else:
-        scope_title = "Complete Project Lifecycle (All Commits)"
+        scope_title = "Complete Project Lifecycle — All Repository Branches"
 
     try:
         raw_output = subprocess.check_output(git_args, encoding='utf-8', errors='replace')
@@ -73,6 +74,7 @@ def get_git_metrics(interval="weekly"):
     students = defaultdict(lambda: {"commits": 0, "added": 0, "deleted": 0, "active_days": set()})
     timeline_activity = defaultdict(lambda: defaultdict(int))
     student_logs = defaultdict(list)
+    seen_shas = set()
 
     current_author = None
     current_date_str = None
@@ -91,6 +93,12 @@ def get_git_metrics(interval="weekly"):
                 msg = parts[4].strip()
             else:
                 continue
+
+            # Prevent duplicate count across overlapping branches
+            if sha in seen_shas:
+                current_author = None
+                continue
+            seen_shas.add(sha)
 
             # Exclude bot commits from metric calculations
             if "bot" in author.lower() or "github-actions" in author.lower():
@@ -136,7 +144,7 @@ def create_charts(students, timeline_activity, interval):
         for author in authors:
             counts = [timeline_activity[p].get(author, 0) for p in periods]
             ax1.plot(periods, counts, marker='o', linewidth=2, label=author)
-        ax1.set_title(f"Commit Timeline ({interval.capitalize()})", fontsize=10, fontweight='bold')
+        ax1.set_title(f"All Branches Commit Timeline ({interval.capitalize()})", fontsize=10, fontweight='bold')
         ax1.set_ylabel("Commits")
         ax1.tick_params(axis='x', rotation=30)
         ax1.grid(True, linestyle='--', alpha=0.5)
@@ -147,9 +155,9 @@ def create_charts(students, timeline_activity, interval):
     # 2. Net LOC Chart
     if authors:
         net_loc = [students[a]["added"] - students[a]["deleted"] for a in authors]
-        colors_list = ['#4E79A7', '#F28E2B', '#E15759', '#76B7B2', '#59A14F']
+        colors_list = ['#4E79A7', '#F28E2B', '#E15759', '#76B7B2', '#59A14F', '#EDC948', '#B07AA1']
         ax2.bar(authors, net_loc, color=colors_list[:len(authors)], width=0.45)
-        ax2.set_title("Net Lines of Code Written", fontsize=10, fontweight='bold')
+        ax2.set_title("Net Lines of Code Written (All Branches)", fontsize=10, fontweight='bold')
         ax2.set_ylabel("LOC (Added - Deleted)")
         ax2.grid(axis='y', linestyle='--', alpha=0.5)
     else:
@@ -173,14 +181,14 @@ def generate_pdf(interval="weekly"):
     date_stamp = datetime.date.today().strftime("%Y-%m-%d")
 
     if interval == "weekly":
-        report_title = "Weekly Progress Report"
-        doc_name = f"{repo_name}_Weekly_Progress_Report_Form-3_{date_stamp}.pdf"
+        report_title = "Weekly Progress Report (All Branches)"
+        doc_name = f"{repo_name}_All_Branches_Weekly_Progress_Report_Form-3_{date_stamp}.pdf"
     elif interval == "monthly":
-        report_title = "Monthly Progress Report (Form-3)"
-        doc_name = f"{repo_name}_Monthly_Progress_Report_Form-3_{date_stamp}.pdf"
+        report_title = "Monthly Progress Report (All Branches - Form-3)"
+        doc_name = f"{repo_name}_All_Branches_Monthly_Progress_Report_Form-3_{date_stamp}.pdf"
     else:
-        report_title = "Final Project Evaluation Report"
-        doc_name = f"{repo_name}_Final_Report_{date_stamp}.pdf"
+        report_title = "Final Project Evaluation Report (All Branches)"
+        doc_name = f"{repo_name}_All_Branches_Final_Report_{date_stamp}.pdf"
 
     doc = SimpleDocTemplate(
         doc_name,
@@ -239,11 +247,11 @@ def generate_pdf(interval="weekly"):
     story.append(Spacer(1, 3))
 
     # 2. Metadata
-    story.append(Paragraph(f"<b>Project Repository:</b> <font color='#2563EB'><b>{html.escape(repo_name)}</b></font> &nbsp;|&nbsp; <b>Branch:</b> <code>{html.escape(branch_name)}</code>", repo_style))
+    story.append(Paragraph(f"<b>Project Repository:</b> <font color='#2563EB'><b>{html.escape(repo_name)}</b></font> &nbsp;|&nbsp; <b>Scope:</b> <code>ALL BRANCHES</code>", repo_style))
     story.append(Paragraph(f"<b>Evaluation Window:</b> {scope_title} &nbsp;|&nbsp; <b>Generated On:</b> {datetime.date.today().strftime('%B %d, %Y')}", meta_style))
 
     # 3. Individual Summary Table
-    story.append(Paragraph("1. Individual Contribution Breakdown", section_style))
+    story.append(Paragraph("1. Team Individual Contribution Breakdown (All Branches)", section_style))
     total_commits = sum(data["commits"] for data in students.values())
     table_data = [["Student Name", "Commits (%)", "Lines Added", "Lines Deleted", "Net LOC", "Active Days"]]
 
@@ -260,7 +268,7 @@ def generate_pdf(interval="weekly"):
                 f"{len(data['active_days'])} days"
             ])
     else:
-        table_data.append(["No commits found in this period. Run with 'final' to see all commits.", "-", "-", "-", "-", "-"])
+        table_data.append(["No commits found across any branch. Run with 'final' to see all commits.", "-", "-", "-", "-", "-"])
 
     table = Table(table_data, colWidths=[120, 80, 80, 80, 80, 100])
     table.setStyle(TableStyle([
@@ -279,13 +287,13 @@ def generate_pdf(interval="weekly"):
     story.append(Spacer(1, 6))
 
     # 4. Visual Charts
-    story.append(Paragraph("2. Visual Trends & Volume", section_style))
+    story.append(Paragraph("2. Visual Trends & Volume (Across All Branches)", section_style))
     chart_image = create_charts(students, timeline_activity, interval)
     story.append(chart_image)
     story.append(Spacer(1, 6))
 
     # 5. Detailed Commit Logs per Student
-    story.append(Paragraph(f"3. Detailed Commit Logs ({interval.capitalize()})", section_style))
+    story.append(Paragraph(f"3. Detailed Commit Logs ({interval.capitalize()} — All Branches)", section_style))
     if not student_logs:
         story.append(Paragraph("<i>No commit logs found for this timeframe.</i>", styles['Normal']))
     else:
@@ -322,7 +330,7 @@ def generate_pdf(interval="weekly"):
 
     doc.build(story)
     print(f"\n[SUCCESS] Generated: {doc_name}")
-    print(f" -> Found {len(students)} student(s) and {total_commits} total commits.")
+    print(f" -> Found {len(students)} student(s) and {total_commits} total unique commits across ALL branches.")
 
 
 if __name__ == "__main__":
