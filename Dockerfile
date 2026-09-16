@@ -1,7 +1,15 @@
 FROM node:18-alpine
+
 WORKDIR /app
-COPY package*.json ./
+
+# Copy backend package files first for layer caching
+COPY backend/package*.json ./
+
 RUN npm install --production
-COPY . .
-EXPOSE 3000
+
+# Copy backend source files
+COPY backend/ .
+
+EXPOSE 3001
+
 CMD ["node", "server.js"]

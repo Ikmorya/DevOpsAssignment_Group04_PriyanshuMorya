@@ -1,11 +1,24 @@
 name: Security Audit
 
-on: [push]
+on:
+  push:
+    branches: [ main, Pushpendra_yadav ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   trivy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Run Trivy vulnerability scanner
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Run Trivy vulnerability scanner (filesystem)
       uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'table'
+        exit-code: '0'
+        severity: 'CRITICAL,HIGH'
+        ignore-unfixed: true

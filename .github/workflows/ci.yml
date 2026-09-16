@@ -2,20 +2,32 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, Pushpendra_yadav ]
   pull_request:
     branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
+
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
         node-version: 18
-    - run: npm ci
-    - run: npm test --if-present
+        cache: 'npm'
+        cache-dependency-path: backend/package-lock.json
+
+    - name: Install backend dependencies
+      run: npm ci
+      working-directory: backend
+
+    - name: Run backend tests
+      run: npm test --if-present
+      working-directory: backend
+
     - name: Run Docker Linting
       run: docker run --rm -i hadolint/hadolint < Dockerfile
